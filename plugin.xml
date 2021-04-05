@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension id="br.unicamp.ic.laser.viatrainjector.Patterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:br.unicamp.ic.laser.viatrainjector.Patterns" id="br.unicamp.ic.laser.viatrainjector.Patterns">
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mcaobjflowSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mifsdecisionSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mlpapinSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.waldanodeSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mvivSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mfcnodeSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wvavoguardSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wvavcguardSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mlpaforkSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wsutnodeSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mlpanodeSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mvivobjectSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wsutpinSpecification"/>
+    </group>
+  </extension>
+</plugin>

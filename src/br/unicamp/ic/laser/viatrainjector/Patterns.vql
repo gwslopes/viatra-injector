@@ -1,0 +1,193 @@
+package br.unicamp.ic.laser.viatrainjector
+
+import epackage "http://www.eclipse.org/uml2/5.0.0/UML"
+
+// We are searching for an Activity, a Comment, and ObjectFlow, and a specific String...
+
+//Objet Flow and MCA - Execução mcaobjflowExecution
+pattern mcaobjflowSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
+{
+	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass
+	// Visualize it as "c --[annotatedElement]--> objflow"
+    Comment.annotatedElement(c,objflow);
+
+  	// The Comment and the String must be connected by the property "body" of Comment metaclass
+	// "c --[body]--> str"
+    Comment.body(c,str);
+    
+  	// The Activity and the ObjectFlow must be connected by the property "edge" of Activity metaclass
+	// "act --[edge]--> objflow"  
+	Activity.edge(act,objflow);
+
+	// Additional constraints are that...
+    check (
+    	str.startsWith("InjectFault into object flow") && str.indexOf("MCA") > 0  
+    );
+}
+
+//Control Flow and MCA - Execução mcacontrolExecution
+pattern mcacontrolSpecification(act : Activity, c : Comment, ctrflow : ControlFlow, str : java String)
+{
+	
+    Comment.annotatedElement(c,ctrflow);
+    Comment.body(c,str);
+	Activity.edge(act,ctrflow);
+    check (
+    	str.startsWith("InjectFault into control flow") && str.indexOf("MCA") > 0  
+    );
+
+}
+
+//Decision Node and MIFS - Execução mifsdecisionExecution
+pattern mifsdecisionSpecification(act : Activity, c : Comment, objdecision : DecisionNode, str : java String)
+{
+
+    Comment.annotatedElement(c, objdecision);
+    Comment.body(c,str);
+	Activity.ownedNode(act, objdecision);
+
+	// Additional constraints are that...
+    check (
+    	str.startsWith("InjectFault into decision") && str.indexOf("MIFS") > 0  
+    );
+}
+
+//Pin and MLPA - Execução mlpapinExecution
+pattern mlpapinSpecification(act : Activity, c : Comment, pin : Pin, str : java String)
+{
+
+    Comment.annotatedElement(c, pin);
+    Comment.body(c,str);
+	Activity.ownedNode(act, pin);
+
+    check (
+    	str.startsWith("InjectFault into pin") && str.indexOf("MLPA") > 0  
+    );
+}
+
+//Call Behavior and WALD - Execução waldanodeExecution
+pattern waldanodeSpecification(act : Activity, c : Comment, anode : CallBehaviorAction, str : java String)
+{
+
+    Comment.annotatedElement(c, anode);
+    Comment.body(c,str);
+	Activity.ownedNode(act, anode);
+    check (
+    	str.startsWith("InjectFault into behavior") && str.indexOf("WALD") > 0  
+    );
+}
+
+//Value Specification Action and MVIV - Execução mvivvaluesaExecution
+pattern mvivSpecification(act : Activity, c : Comment, valuesa : ValueSpecificationAction, str : java String)
+{
+
+    Comment.annotatedElement(c, valuesa);
+    Comment.body(c, str);
+	Activity.ownedNode(act, valuesa);
+    check (
+    	str.startsWith("InjectFault into valuesa") && str.indexOf("MVIV") > 0  
+    );
+}
+
+//Node and MFC - Execução mfcnodeExecution
+pattern mfcnodeSpecification(act : Activity, c : Comment, nodes : ActivityNode, str : java String)
+{
+	
+    Comment.annotatedElement(c, nodes);
+    Comment.body(c, str);
+	Activity.ownedNode(act, nodes);
+    check (
+    	str.startsWith("InjectFault into object") && str.indexOf("MFC") > 0  
+    );
+
+}
+
+//Guard and WVAV (Object flow version) - Execução wvavoguardExecution
+pattern wvavoguardSpecification(act : Activity, c : Comment, guard : ObjectFlow, str : java String)
+{
+	
+    Comment.annotatedElement(c,guard);
+    Comment.body(c,str);
+	Activity.edge(act,guard);
+    check (
+    	str.startsWith("InjectFault into guard") && str.indexOf("WVAV") > 0  
+    );
+
+}
+ 
+//Guard and WVAV (Control flow version) - Execução wvavoguardExecution
+pattern wvavcguardSpecification(act : Activity, c : Comment, guard : ControlFlow, str : java String)
+{
+	
+    Comment.annotatedElement(c,guard);
+    Comment.body(c,str);
+	Activity.edge(act,guard);
+    check (
+    	str.startsWith("InjectFault into guard") && str.indexOf("WVAV") > 0  
+    );
+
+}
+
+//Fork and MLPA - Execução mlpaforkExecution
+pattern mlpaforkSpecification(act : Activity, c : Comment, fork : ForkNode, str : java String)
+{
+	
+    Comment.annotatedElement(c, fork);
+    Comment.body(c, str);
+	Activity.ownedNode(act, fork);
+    check (
+    	str.startsWith("InjectFault into fork") && str.indexOf("MLPA") > 0  
+    );
+
+}
+
+//Node and WSUT - Execução 
+pattern wsutnodeSpecification(act : Activity, c : Comment, nodes : ValueSpecificationAction, str : java String)
+{
+	
+    Comment.annotatedElement(c, nodes);
+    Comment.body(c, str);
+	Activity.ownedNode(act, nodes);
+    check (
+    	str.startsWith("InjectFault into object") && str.indexOf("WSUT") > 0  
+    );
+
+}
+
+//Node and MLPA - Execução 
+pattern mlpanodeSpecification(act : Activity, c : Comment, nodes : ActivityNode, str : java String)
+{
+	
+    Comment.annotatedElement(c, nodes);
+    Comment.body(c, str);
+	Activity.ownedNode(act, nodes);
+    check (
+    	str.startsWith("InjectFault into object") && str.indexOf("MLPA") > 0  
+    );
+
+}
+
+//Object and MVIV - Execução 
+pattern mvivobjectSpecification(act : Activity, c : Comment, asfva : AddStructuralFeatureValueAction, str : java String)
+{
+
+    Comment.annotatedElement(c, asfva);
+    Comment.body(c,str);
+	Activity.ownedNode(act, asfva);
+    check (
+    	str.startsWith("InjectFault into object") && str.indexOf("MVIV") > 0  
+    );
+}
+
+//Pin and WSUT - Execução 
+pattern wsutpinSpecification(act : Activity, c : Comment, pin : Pin, str : java String)
+{
+
+    Comment.annotatedElement(c, pin);
+    Comment.body(c,str);
+	Activity.ownedNode(act, pin);
+
+    check (
+    	str.startsWith("InjectFault into pin") && str.indexOf("WSUT") > 0  
+    );
+}
