@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.ControlFlow;
@@ -108,10 +109,17 @@ public class InjectorTransformation {
         System.out.println(el.getC().getBody());
         Comment _c = el.getC();
         _c.setBody("INJECTED!");
+        final Comment comment = this.umlFactory.createComment();
+        comment.getAnnotatedElements().addAll(el.getC().getAnnotatedElements());
+        comment.getAnnotatedElements().remove(el.getObjflow());
+        comment.getAnnotatedElements().remove(el.getAct());
         final String target = this.getTarget(text);
         final String source = this.getSource(text);
         System.out.println(source);
-        System.out.println(target);
+        final Function1<ActivityNode, Boolean> _function = (ActivityNode it) -> {
+          return Boolean.valueOf(it.getName().equals(source));
+        };
+        System.out.println(IterableExtensions.<ActivityNode>findFirst(el.getAct().getOwnedNodes(), _function));
         EcoreUtil.delete(el.getObjflow());
         final ControlFlow ctrlFlow = this.umlFactory.createControlFlow();
         ctrlFlow.setName("Injected-control-flow");
@@ -437,11 +445,22 @@ public class InjectorTransformation {
     int _indexOf = text.indexOf("source:");
     boolean _notEquals = (_indexOf != (-1));
     if (_notEquals) {
-      int _indexOf_1 = text.indexOf("source:");
-      int _plus = (_indexOf_1 + 7);
-      int _indexOf_2 = text.indexOf("source:");
-      int _plus_1 = (_indexOf_2 + 7);
-      source = text.substring(_plus, text.indexOf(",", _plus_1)).trim();
+      int _indexOf_1 = text.indexOf("[");
+      boolean _notEquals_1 = (_indexOf_1 != (-1));
+      if (_notEquals_1) {
+        int _indexOf_2 = text.indexOf("source:");
+        int _plus = (_indexOf_2 + 7);
+        int _indexOf_3 = text.indexOf("source:");
+        int _plus_1 = (_indexOf_3 + 7);
+        source = text.substring(_plus, text.indexOf(",", _plus_1)).trim();
+        source = source.replace("[", "").replace("]", "");
+        return source;
+      }
+      int _indexOf_4 = text.indexOf("source:");
+      int _plus_2 = (_indexOf_4 + 7);
+      int _indexOf_5 = text.indexOf("source:");
+      int _plus_3 = (_indexOf_5 + 7);
+      source = text.substring(_plus_2, text.indexOf(",", _plus_3)).trim();
       return source;
     } else {
       return null;
@@ -449,16 +468,27 @@ public class InjectorTransformation {
   }
   
   private String getTarget(final String text) {
-    String source = null;
+    String target = null;
     int _indexOf = text.indexOf("target:");
     boolean _notEquals = (_indexOf != (-1));
     if (_notEquals) {
-      int _indexOf_1 = text.indexOf("target:");
-      int _plus = (_indexOf_1 + 7);
-      int _indexOf_2 = text.indexOf("target:");
-      int _plus_1 = (_indexOf_2 + 7);
-      source = text.substring(_plus, text.indexOf(".", _plus_1)).trim();
-      return source;
+      int _indexOf_1 = text.indexOf("[");
+      boolean _notEquals_1 = (_indexOf_1 != (-1));
+      if (_notEquals_1) {
+        int _indexOf_2 = text.indexOf("[");
+        int _plus = (_indexOf_2 + 1);
+        int _indexOf_3 = text.indexOf("[");
+        int _plus_1 = (_indexOf_3 + 1);
+        target = text.substring(_plus, text.indexOf(".", _plus_1)).trim();
+        target = target.replace("[", "").replace("]", "");
+        return target;
+      }
+      int _indexOf_4 = text.indexOf("target:");
+      int _plus_2 = (_indexOf_4 + 7);
+      int _indexOf_5 = text.indexOf("target:");
+      int _plus_3 = (_indexOf_5 + 7);
+      target = text.substring(_plus_2, text.indexOf(".", _plus_3)).trim();
+      return target;
     } else {
       return null;
     }

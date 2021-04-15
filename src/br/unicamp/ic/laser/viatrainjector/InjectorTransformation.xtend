@@ -81,11 +81,25 @@ class InjectorTransformation {
 			var String text = el.c.body
 			System.out.println(el.c.body)
 			el.c.body = "INJECTED!" 
+			//System.out.println(el.c.annotatedElements)
 			
+			val comment = umlFactory.createComment
+			comment.annotatedElements.addAll(el.c.annotatedElements)
+			comment.annotatedElements.remove(el.objflow)
+			comment.annotatedElements.remove(el.act)
+			//System.out.println(comment.annotatedElements)
+			
+			//System.out.println(comment.annotatedElements.findFirst[true].eClass)
+						
 			val String target = getTarget(text)
 			val String source = getSource(text)
+			
+			//System.out.println(comment.annotatedElements.findFirst[true].eClass.name.contains(source.replace(" ", "")))
+			
 			System.out.println(source)
-			System.out.println(target)
+			//System.out.println(target)
+			
+			System.out.println(el.act.ownedNodes.findFirst[name.equals(source)])
 			
 			// Apaga o ObjectFlow
 			// Para eliminar elementos de forma consistente tem que usar essa função
@@ -522,7 +536,14 @@ class InjectorTransformation {
 	private def String getSource(String text){
 		
 		var String source
+		
+		
 		if (text.indexOf("source:") != -1) {
+				if (text.indexOf("[") != -1){
+					source = text.substring(text.indexOf("source:")+7, text.indexOf(",", text.indexOf("source:")+7)).trim
+					source = source.replace("[", "").replace("]", "")
+					return source
+				}
 				source = text.substring(text.indexOf("source:")+7, text.indexOf(",", text.indexOf("source:")+7)).trim
 				//System.out.println(source)
 				return source
@@ -535,11 +556,16 @@ class InjectorTransformation {
 	
 	private def getTarget(String text){
 		
-		var String source
+		var String target
 		if (text.indexOf("target:") != -1) {
-				source = text.substring(text.indexOf("target:")+7, text.indexOf(".", text.indexOf("target:")+7)).trim
+				if (text.indexOf("[") != -1){
+					target = text.substring(text.indexOf("[")+1, text.indexOf(".", text.indexOf("[")+1)).trim
+					target = target.replace("[", "").replace("]", "")
+					return target
+				}
+				target = text.substring(text.indexOf("target:")+7, text.indexOf(".", text.indexOf("target:")+7)).trim
 				//System.out.println(source)
-				return source
+				return target
 		}
 		else{
 			return null
