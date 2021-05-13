@@ -8,34 +8,6 @@
       <importedPackage xmi:type="uml:Model" href="pathmap://PAPYRUS_fUML_LIBRARY/fUML_Library.uml#_0"/>
     </packageImport>
     <packagedElement xmi:type="uml:Activity" xmi:id="_yin34Ca7EeuTyYbn-13-3g" name="ModeloTeste" node="__E7Z8C2iEeuEMKsRQRzSQQ _OGvMQC2jEeuEMKsRQRzSQQ _jTfBYC2kEeuEMKsRQRzSQQ _khhh0C2kEeuEMKsRQRzSQQ _QNq_wIhJEeuMGt4Gz0H-Yw">
-      <ownedComment xmi:type="uml:Comment" xmi:id="_l9xKUEUyEeugndlxsrq4QA" annotatedElement="_yin34Ca7EeuTyYbn-13-3g _n9BYUC2kEeuEMKsRQRzSQQ">
-        <body>InjectFault into object flow,&#xD;
-what MCA</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_ddJnMH0kEeuetLB_AMnDrA" annotatedElement="_yin34Ca7EeuTyYbn-13-3g __E7Z8C2iEeuEMKsRQRzSQQ">
-        <body>InjectFault into behavior,&#xD;
-what WALD</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_JFukoH0wEeuetLB_AMnDrA" annotatedElement="_yin34Ca7EeuTyYbn-13-3g _khhh0C2kEeuEMKsRQRzSQQ">
-        <body>InjectFault into valuesa,&#xD;
-what MVIV</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_8DpKMH02EeuetLB_AMnDrA" annotatedElement="_pYXU8C2kEeuEMKsRQRzSQQ _yin34Ca7EeuTyYbn-13-3g">
-        <body>InjectFault into object flow,&#xD;
-what MCA</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_Z033wIHsEeu42P9mRd59Cg" annotatedElement="_khhh0C2kEeuEMKsRQRzSQQ _yin34Ca7EeuTyYbn-13-3g">
-        <body>InjectFault into object&#xD;
-what MFC</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_TTVJIIhJEeuMGt4Gz0H-Yw" annotatedElement="_Rl4v4IhJEeuMGt4Gz0H-Yw _yin34Ca7EeuTyYbn-13-3g">
-        <body>InjectFault into control flow,&#xD;
-what MCA,</body>
-      </ownedComment>
-      <ownedComment xmi:type="uml:Comment" xmi:id="_a7Jc0IhOEeuMGt4Gz0H-Yw" annotatedElement="_Rl4v4IhJEeuMGt4Gz0H-Yw _yin34Ca7EeuTyYbn-13-3g">
-        <body>InjectFault into guard,&#xD;
-what WVAV,</body>
-      </ownedComment>
       <edge xmi:type="uml:ControlFlow" xmi:id="_kHP2EC2jEeuEMKsRQRzSQQ" target="_jTfBYC2kEeuEMKsRQRzSQQ" source="_OGvMQC2jEeuEMKsRQRzSQQ"/>
       <edge xmi:type="uml:ObjectFlow" xmi:id="_n9BYUC2kEeuEMKsRQRzSQQ" target="__E-dQC2iEeuEMKsRQRzSQQ" source="_jTgPgC2kEeuEMKsRQRzSQQ">
         <guard xmi:type="uml:LiteralBoolean" xmi:id="_n9J7MC2kEeuEMKsRQRzSQQ" value="true"/>
