@@ -526,7 +526,7 @@ public class InjectorTransformation {
   }
   
   public void executeall(final InjectorTransformation transformation) {
-    transformation.waldanodeExecution();
+    transformation.wbc1objflowExecution();
   }
   
   private String getSource(final String text) {

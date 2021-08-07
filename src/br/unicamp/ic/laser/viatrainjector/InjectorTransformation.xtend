@@ -647,10 +647,10 @@ class InjectorTransformation {
 	}
 	
 	def executeall(InjectorTransformation transformation){
-		//transformation.wbc1objflowExecution //Done Object Flow wbc1
+		transformation.wbc1objflowExecution //Done Object Flow wbc1
 		//transformation.mlpapinExecution //Pin - Alterar Pins -- Refazer
 		//transformation.execute3 // Inutilizado -- Refiz no 9
-		transformation.waldanodeExecution //Behavior
+		//transformation.waldanodeExecution //Behavior
 		//transformation.mvivvaluesaExecution //Done - Value Specification Action
 		//transformation.wbc1controlExecution //Done Control Flow wbc1
 		//transformation.mfcnodeExecution //Done Node MFC
