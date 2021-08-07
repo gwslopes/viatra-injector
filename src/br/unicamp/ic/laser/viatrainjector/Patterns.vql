@@ -4,8 +4,8 @@ import epackage "http://www.eclipse.org/uml2/5.0.0/UML"
 
 // We are searching for an Activity, a Comment, and ObjectFlow, and a specific String...
 
-//Objet Flow and MCA - Execução mcaobjflowExecution
-pattern mcaobjflowSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
+//Objet Flow and WBC1 - Execução mcaobjflowExecution
+pattern wbc1objflowSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
 {
 	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass
 	// Visualize it as "c --[annotatedElement]--> objflow"
@@ -21,19 +21,53 @@ pattern mcaobjflowSpecification(act : Activity, c : Comment, objflow : ObjectFlo
 
 	// Additional constraints are that...
     check (
-    	str.startsWith("InjectFault into object flow") && str.indexOf("MCA") > 0  
+    	str.startsWith("InjectFault into object flow") && str.indexOf("WBC1") > 0  
     );
 }
 
-//Control Flow and MCA - Execução mcacontrolExecution
-pattern mcacontrolSpecification(act : Activity, c : Comment, ctrflow : ControlFlow, str : java String)
+//Control Flow and WBC1 - Execução mcaobjflowExecution
+pattern wbc1ctrlflowSpecification(act : Activity, c : Comment, ctrlflow : ControlFlow, str : java String)
+{
+	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass
+	// Visualize it as "c --[annotatedElement]--> objflow"
+    Comment.annotatedElement(c,ctrlflow);
+
+  	// The Comment and the String must be connected by the property "body" of Comment metaclass
+	// "c --[body]--> str"
+    Comment.body(c,str);
+    
+  	// The Activity and the ObjectFlow must be connected by the property "edge" of Activity metaclass
+	// "act --[edge]--> objflow"  
+	Activity.edge(act,ctrlflow);
+
+	// Additional constraints are that...
+    check (
+    	str.startsWith("InjectFault into control flow") && str.indexOf("WBC1") > 0  
+    );
+}
+
+//Control Flow and WBC1 - Execução mcacontrolExecution
+pattern wbc1controlSpecification(act : Activity, c : Comment, ctrflow : ControlFlow, str : java String)
 {
 	
     Comment.annotatedElement(c,ctrflow);
     Comment.body(c,str);
 	Activity.edge(act,ctrflow);
     check (
-    	str.startsWith("InjectFault into control flow") && str.indexOf("MCA") > 0  
+    	str.startsWith("InjectFault into control flow") && str.indexOf("WBC1") > 0  
+    );
+
+}
+
+//Control Flow and WBC1 - Execução mcacontrolExecution
+pattern wbc1objectSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
+{
+	
+    Comment.annotatedElement(c,objflow);
+    Comment.body(c,str);
+	Activity.edge(act,objflow);
+    check (
+    	str.startsWith("InjectFault into Object flow") && str.indexOf("WBC1") > 0  
     );
 
 }

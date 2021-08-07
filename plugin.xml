@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin>
   <extension id="br.unicamp.ic.laser.viatrainjector.Patterns" point="org.eclipse.viatra.query.runtime.queryspecification">
     <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:br.unicamp.ic.laser.viatrainjector.Patterns" id="br.unicamp.ic.laser.viatrainjector.Patterns">
-      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mcaobjflowSpecification"/>
-      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wbc1objflowSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wbc1ctrlflowSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wbc1controlSpecification"/>
+      <query-specification fqn="br.unicamp.ic.laser.viatrainjector.wbc1objectSpecification"/>
       <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mifsdecisionSpecification"/>
       <query-specification fqn="br.unicamp.ic.laser.viatrainjector.mlpapinSpecification"/>
       <query-specification fqn="br.unicamp.ic.laser.viatrainjector.waldanodeSpecification"/>

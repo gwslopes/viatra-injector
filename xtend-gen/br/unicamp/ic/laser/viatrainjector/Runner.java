@@ -34,7 +34,7 @@ public class Runner {
     EPackage.Registry.INSTANCE.put(pStandard.getNsURI(), pStandard);
     final ResourceSetImpl rs = new ResourceSetImpl();
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("uml", UMLResource.Factory.INSTANCE);
-    final File fOriginal = new File("C:/Users/gwlop/eclipse-workspace-Viatra/testegeral/testegeral.uml");
+    final File fOriginal = new File("C:/Users/gwlop/eclipse-workspace-2019-09/model2Inject-main/viatra-injector/Modelos/testegeral/testegeral.uml");
     final File fCopy = new File("C:/Users/gwlop/eclipse-workspace-2019-09/model2Inject-main/ModelosTeste/ModelosTeste-new-viatra.uml");
     try {
       Files.deleteIfExists(fCopy.toPath());

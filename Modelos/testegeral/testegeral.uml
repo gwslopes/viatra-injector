@@ -6,37 +6,10 @@
   <packageImport xmi:type="uml:PackageImport" xmi:id="_XLHO8IHmEeu42P9mRd59Cg">
     <importedPackage xmi:type="uml:Model" href="pathmap://PAPYRUS_fUML_LIBRARY/fUML_Library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:Activity" xmi:id="_FE7ssIHmEeu42P9mRd59Cg" name="Activity1" node="_JadigIHmEeu42P9mRd59Cg _RJKTkIHmEeu42P9mRd59Cg _RmxcoIHmEeu42P9mRd59Cg _ZikOgIHmEeu42P9mRd59Cg _hiQo8IHmEeu42P9mRd59Cg _lffTgIHmEeu42P9mRd59Cg _2aqbMIHmEeu42P9mRd59Cg _oq278IHpEeu42P9mRd59Cg _4QudkIHpEeu42P9mRd59Cg">
-    <ownedComment xmi:type="uml:Comment" xmi:id="_VbmuQIHoEeu42P9mRd59Cg" annotatedElement="_hiQo8IHmEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg">
-      <body>InjectFault into decision,&#xD;
-what MIFS,</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_V5LbEIHoEeu42P9mRd59Cg" annotatedElement="_-VSvcIHmEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg _ZikOgIHmEeu42P9mRd59Cg">
-      <body>InjectFault into object flow,&#xD;
-what MCA,&#xD;
-source: Teste,&#xD;
-target: Fork.</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_WRfNYIHoEeu42P9mRd59Cg" annotatedElement="_RmxcoIHmEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg">
-      <body>InjectFault into valuesa,&#xD;
-what MVIV,</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_XQEVgIHoEeu42P9mRd59Cg" annotatedElement="_-mTGQIHuEeum49VIag5kmw _FE7ssIHmEeu42P9mRd59Cg">
-      <body>InjectFault into control flow,&#xD;
-what MCA,&#xD;
-source: teste</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_6lys8IHoEeu42P9mRd59Cg" annotatedElement="_ZikOgIHmEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_FE7ssIHmEeu42P9mRd59Cg" name="AtividadeTeste" node="_JadigIHmEeu42P9mRd59Cg _RJKTkIHmEeu42P9mRd59Cg _RmxcoIHmEeu42P9mRd59Cg _ZikOgIHmEeu42P9mRd59Cg _hiQo8IHmEeu42P9mRd59Cg _lffTgIHmEeu42P9mRd59Cg _2aqbMIHmEeu42P9mRd59Cg _oq278IHpEeu42P9mRd59Cg _4QudkIHpEeu42P9mRd59Cg">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_V5LbEIHoEeu42P9mRd59Cg" annotatedElement="_FE7ssIHmEeu42P9mRd59Cg _ZikOgIHmEeu42P9mRd59Cg">
       <body>InjectFault into behavior,&#xD;
-what WALD,</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_G2cmQIHpEeu42P9mRd59Cg" annotatedElement="_ETORAIHoEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg">
-      <body>InjectFault into guard,&#xD;
-what WVAV,</body>
-    </ownedComment>
-    <ownedComment xmi:type="uml:Comment" xmi:id="_DU5GgIj5EeurD-B0nBBpqA" annotatedElement="_4QudkIHpEeu42P9mRd59Cg _FE7ssIHmEeu42P9mRd59Cg">
-      <body>InjectFault into fork&#xD;
-what MLPA</body>
+what WALD</body>
     </ownedComment>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_-VSvcIHmEeu42P9mRd59Cg" target="_ZimDsIHmEeu42P9mRd59Cg" source="_RJylsIHmEeu42P9mRd59Cg">
       <guard xmi:type="uml:LiteralBoolean" xmi:id="_-Vgx4IHmEeu42P9mRd59Cg" value="true"/>
@@ -112,7 +85,7 @@ what MLPA</body>
       </result>
       <value xmi:type="uml:LiteralInteger" xmi:id="_7JkaUIHmEeu42P9mRd59Cg" value="10"/>
     </node>
-    <node xmi:type="uml:CallBehaviorAction" xmi:id="_oq278IHpEeu42P9mRd59Cg" name="Teste">
+    <node xmi:type="uml:CallBehaviorAction" xmi:id="_oq278IHpEeu42P9mRd59Cg">
       <argument xmi:type="uml:InputPin" xmi:id="_oq3jAIHpEeu42P9mRd59Cg" name="x" incoming="_A1Qx0IHnEeu42P9mRd59Cg">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oq3jAYHpEeu42P9mRd59Cg" value="1"/>

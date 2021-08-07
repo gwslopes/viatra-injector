@@ -63,11 +63,11 @@ class InjectorTransformation {
 	 * adicionar parâmetros ou chamar otras classes 
 	 * * */
     //Transforma Object Flow em Control Flow
-    def mcaobjflowExecution() {
+    def wbc1objflowExecution() {
 
-		// executo o pattern "mcaSpecification" (mesmo nome em Patterns.vql)
+		// executo o pattern "wbc1Specification" (mesmo nome em Patterns.vql)
 		// e guardo o resultado na variável "matched"
-		val matched = engine.getMatcher(mcaobjflowSpecification).allMatches;
+		val matched = engine.getMatcher(wbc1objflowSpecification).allMatches;
 
 		// Iterando em todas as instâncias do pattern que foram encontradas...
 		for(el : matched) {
@@ -90,42 +90,108 @@ class InjectorTransformation {
 			//System.out.println(comment.annotatedElements)
 			
 			//System.out.println(comment.annotatedElements.findFirst[true].eClass)
-						
-			val String target = getTarget(text)
-			val String source = getSource(text)
+				
+			//achar o elemento com um nome especifico			
+			//val String target = getTarget(text)
+			//val String source = getSource(text)
 			
 			//System.out.println(comment.annotatedElements.findFirst[true].eClass.name.contains(source.replace(" ", "")))
 			
-			System.out.println(source)
+			//System.out.println(source)
 			//System.out.println(target)
 			
-			System.out.println(el.act.ownedNodes.findFirst[name.equals(source)])
+			//el.act.ownedNodes.findFirst[name.equals(source)]
+			//el.act.ownedNodes.findFirst[name.equals(target)]
 			
 			// Apaga o ObjectFlow
 			// Para eliminar elementos de forma consistente tem que usar essa função
 			EcoreUtil.delete(el.objflow)
 			
-			// Criando um novo ControlFlow.
-			// Para criar elementos (objetos) de forma consistente tem que usar a Factory
-			// Existe um método createXXX para cada metaclasse UML
-			val ctrlFlow = umlFactory.createControlFlow
-			ctrlFlow.name = "Injected-control-flow"
-			ctrlFlow.guard = el.objflow.guard
-			ctrlFlow.weight = el.objflow.weight
-			ctrlFlow.source = el.objflow.source
-			ctrlFlow.target = el.objflow.target
+			val String target = getTarget(text)
+			val String source = getSource(text)
 			
-			// Adiciona o novo ControlFlow entre os elementos na propriedade "edge" de Activity
-			// Para ver onde cada elemnto fica pode se ajudar com o MoDisco Model Browser" ou o metamodelo UML
-			el.act.edges.add(ctrlFlow)
+			
+			if (source === null){
+				// Criando um novo ControlFlow.
+				// Para criar elementos (objetos) de forma consistente tem que usar a Factory
+				// Existe um método createXXX para cada metaclasse UML
+				val ctrlFlow = umlFactory.createControlFlow
+				ctrlFlow.name = "Injected-control-flow"
+				ctrlFlow.guard = el.objflow.guard
+				ctrlFlow.weight = el.objflow.weight
+				ctrlFlow.source = el.objflow.source
+				ctrlFlow.target = el.objflow.target
+			
+				// Adiciona o novo ControlFlow entre os elementos na propriedade "edge" de Activity
+				// Para ver onde cada elemnto fica pode se ajudar com o MoDisco Model Browser" ou o metamodelo UML
+				el.act.edges.add(ctrlFlow)
+			}
+			else{
+				val ctrlFlow = umlFactory.createControlFlow
+				ctrlFlow.name = "Injected-control-flow"
+				ctrlFlow.guard = el.objflow.guard
+				ctrlFlow.weight = el.objflow.weight
+				ctrlFlow.source = el.act.ownedNodes.findFirst[name.equals(source)]
+				ctrlFlow.target = el.act.ownedNodes.findFirst[name.equals(target)]
+			}		
+			}
+			
+    }
+    
+     //Transforma Control Flow em Object Flow
+    def wbc1ctrlflowExecution() {
+
+
+		val matched = engine.getMatcher(wbc1ctrlflowSpecification).allMatches;
+
+		for(el : matched) {
+			
+			var String text = el.c.body
+			System.out.println(el.c.body)
+			el.c.body = "INJECTED!" 
+			//System.out.println(el.c.annotatedElements)
+			
+			val comment = umlFactory.createComment
+			comment.annotatedElements.addAll(el.c.annotatedElements)
+			comment.annotatedElements.remove(el.ctrlflow)
+			comment.annotatedElements.remove(el.act)
+						
+			val String target = getTarget(text)
+			val String source = getSource(text)
+			
+			EcoreUtil.delete(el.ctrlflow)
+			//System.out.println(source)
+			//System.out.println(target)
+			
+			//el.act.ownedNodes.findFirst[name.equals(source)]
+			//el.act.ownedNodes.findFirst[name.equals(target)]
+			if (source === null){
+				val objFlow = umlFactory.createObjectFlow
+				objFlow.name = "Injected-control-flow"
+				objFlow.guard = el.ctrlflow.guard
+				objFlow.weight = el.ctrlflow.weight
+				objFlow.source = el.ctrlflow.source
+				objFlow.target = el.ctrlflow.target
+				el.act.edges.add(objFlow)
+			}
+			else{
+				val objFlow = umlFactory.createObjectFlow
+				objFlow.name = "Injected-control-flow"
+				objFlow.guard = el.ctrlflow.guard
+				objFlow.weight = el.ctrlflow.weight
+				objFlow.source = el.ctrlflow.source
+				objFlow.target = el.ctrlflow.target
+				el.act.edges.add(objFlow)
+			}
+			
 		}
     }
 
 	//Altera um Control Flow invertendo o target para source
-	def mcacontrolExecution() {
+	def wbc1controlExecution() {
 
 
-		val matched = engine.getMatcher(mcacontrolSpecification).allMatches;
+		val matched = engine.getMatcher(wbc1controlSpecification).allMatches;
 
 		// Iterando em todas as instâncias do pattern que foram encontradas...
 		for(el : matched) {
@@ -135,7 +201,7 @@ class InjectorTransformation {
 			//EcoreUtil.delete(el.objflow)
 
 			val ctrlFlow = umlFactory.createControlFlow
-			ctrlFlow.name = "NewControlFlow"
+			ctrlFlow.name = "ControlFlowInject"
 			ctrlFlow.source = el.ctrflow.target
 			ctrlFlow.target = el.ctrflow.source
 			ctrlFlow.guard = el.ctrflow.guard
@@ -144,6 +210,34 @@ class InjectorTransformation {
 			//ctrlFlow.target = el.objflow.target
 			
 			EcoreUtil.delete(el.ctrflow)
+			
+			el.act.edges.add(ctrlFlow)
+		}
+    }
+
+	//Altera um Control Flow invertendo o target para source
+	def wbc1ObjectExecution() {
+
+
+		val matched = engine.getMatcher(wbc1objectSpecification).allMatches;
+
+		// Iterando em todas as instâncias do pattern que foram encontradas...
+		for(el : matched) {
+			
+			el.c.body = "INJECTED!"
+			
+			//EcoreUtil.delete(el.objflow)
+
+			val ctrlFlow = umlFactory.createControlFlow
+			ctrlFlow.name = "ObjectFlowInject"
+			ctrlFlow.source = el.objflow.target
+			ctrlFlow.target = el.objflow.source
+			ctrlFlow.guard = el.objflow.guard
+			ctrlFlow.weight = el.objflow.weight
+			//ctrlFlow.source = el.objflow.source
+			//ctrlFlow.target = el.objflow.target
+			
+			EcoreUtil.delete(el.objflow)
 			
 			el.act.edges.add(ctrlFlow)
 		}
@@ -159,9 +253,12 @@ class InjectorTransformation {
 		for(el : matched) {
 			
 			el.c.body = "INJECTED!"
-			
+			val decision = umlFactory.createDecisionNode
 			//EcoreUtil.delete(el.guard, true)
+			
+			decision.outgoings.addAll(el.objdecision.outgoings)
 			el.objdecision.outgoings.findFirst[true].target = el.objdecision.outgoings.findLast[true].target
+			el.objdecision.outgoings.findLast[true].target = decision.outgoings.findFirst[true].target
 			//el.objdecision.outgoings.
 			//el.act.edges.add(ctrlFlow)
 			//System.out.println(el.guard.guard.eContainer)
@@ -269,17 +366,49 @@ class InjectorTransformation {
 		for(el : matched) {
 			
 			el.c.body = "INJECTED!"
-			val behavior = umlFactory.createCallBehaviorAction
+			
+			var String text = el.c.body
+			val String target = getTarget(text)
+			val String source = getSource(text)
+			
+			
+			//if (source === null){
+				val behavior = umlFactory.createCallBehaviorAction
 			//var in = behavior.incomings
 			//behavior.incomings.clear
 			//behavior.incomings.addAll(in.reverse)
-			behavior.name = "NewBehavior"
-			behavior.activity = el.anode.activity
-			behavior.ownedElements.addAll(el.anode.ownedElements)
+				behavior.name = "InjectBehavior"
+				behavior.activity = el.anode.activity
+				System.out.println(el.anode.inputs)
+				//behavior.inputs.addAll()
+				behavior.inputs.addAll(el.anode.inputs)
+				//behavior.outputs.addAll(el.anode.outputs)
+				//behavior.ownedElements.addAll(el.anode.ownedElements)
 			//behavior.ownedElements.findFirst[inputPin ] //[](0).add(el.anode.ownedElements.indexOf(1))
+				el.anode.inputs.removeAll()
+				el.anode.inputs.add(behavior.inputs.findLast[true])
+				el.anode.inputs.add(behavior.inputs.findFirst[true]) 
 			
-			EcoreUtil.delete(el.anode)
-			el.act.ownedNodes.add(behavior)
+			//}
+			/*else{
+				val behavior = umlFactory.createCallBehaviorAction
+			//var in = behavior.incomings
+			//behavior.incomings.clear
+			//behavior.incomings.addAll(in.reverse)
+				behavior.name = "InjectBehavior"
+				behavior.activity = el.anode.activity
+				behavior.inputs.addAll(el.anode.inputs)
+				behavior.outputs.addAll(el.anode.outputs)
+				behavior.ownedElements.addAll(el.anode.ownedElements)
+			//behavior.ownedElements.findFirst[inputPin ] //[](0).add(el.anode.ownedElements.indexOf(1))
+				el.act.ownedNodes.findFirst[name.equals(target)]
+				el.anode.inputs.removeAll()
+				el.anode.inputs.add()
+				el.anode.inputs.add(behavior.inputs.) 
+				
+			}*/
+			
+			
 		}
     }
 
@@ -518,12 +647,12 @@ class InjectorTransformation {
 	}
 	
 	def executeall(InjectorTransformation transformation){
-		transformation.mcaobjflowExecution //Done Object Flow MCA
+		//transformation.wbc1objflowExecution //Done Object Flow wbc1
 		//transformation.mlpapinExecution //Pin - Alterar Pins -- Refazer
 		//transformation.execute3 // Inutilizado -- Refiz no 9
-		//transformation.waldanodeExecution //Behavior
+		transformation.waldanodeExecution //Behavior
 		//transformation.mvivvaluesaExecution //Done - Value Specification Action
-		//transformation.mcacontrolExecution //Done Control Flow MCA
+		//transformation.wbc1controlExecution //Done Control Flow wbc1
 		//transformation.mfcnodeExecution //Done Node MFC
 		//transformation.wvavoguardExecution //done Guard WVAV -- Alterar valor de propriedade
 		//transformation.mifsdecisionExecution //done Decision Node MIFS

@@ -42,7 +42,7 @@ class Runner {
 		
 		// Open source file and copy to a new one
 		//val fOriginal = new File("C:/Users/gwlop/eclipse-workspace-2019-09/model2Inject-main/ModelosTeste/ModelosTeste.uml");		
-		val fOriginal = new File("C:/Users/gwlop/eclipse-workspace-Viatra/testegeral/testegeral.uml");
+		val fOriginal = new File("C:/Users/gwlop/eclipse-workspace-2019-09/model2Inject-main/viatra-injector/Modelos/testegeral/testegeral.uml");
 		//val fOriginal = new File("C:/Users/gwlop/eclipse-workspace/Langmuir-Injected/Langmuir/moka.langmuir.uml");
 		val fCopy = new File("C:/Users/gwlop/eclipse-workspace-2019-09/model2Inject-main/ModelosTeste/ModelosTeste-new-viatra.uml");
 		try {

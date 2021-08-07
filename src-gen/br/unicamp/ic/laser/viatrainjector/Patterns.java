@@ -3,8 +3,6 @@
  */
 package br.unicamp.ic.laser.viatrainjector;
 
-import br.unicamp.ic.laser.viatrainjector.McacontrolSpecification;
-import br.unicamp.ic.laser.viatrainjector.McaobjflowSpecification;
 import br.unicamp.ic.laser.viatrainjector.MfcnodeSpecification;
 import br.unicamp.ic.laser.viatrainjector.MifsdecisionSpecification;
 import br.unicamp.ic.laser.viatrainjector.MlpaforkSpecification;
@@ -13,6 +11,10 @@ import br.unicamp.ic.laser.viatrainjector.MlpapinSpecification;
 import br.unicamp.ic.laser.viatrainjector.MvivSpecification;
 import br.unicamp.ic.laser.viatrainjector.MvivobjectSpecification;
 import br.unicamp.ic.laser.viatrainjector.WaldanodeSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1controlSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1ctrlflowSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1objectSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1objflowSpecification;
 import br.unicamp.ic.laser.viatrainjector.WsutnodeSpecification;
 import br.unicamp.ic.laser.viatrainjector.WsutpinSpecification;
 import br.unicamp.ic.laser.viatrainjector.WvavcguardSpecification;
@@ -28,8 +30,10 @@ import org.eclipse.viatra.query.runtime.api.impl.BaseGeneratedPatternGroup;
  * in order to achieve better performance than one-by-one on-demand matcher initialization.
  * 
  * <p> From package br.unicamp.ic.laser.viatrainjector, the group contains the definition of the following patterns: <ul>
- * <li>mcaobjflowSpecification</li>
- * <li>mcacontrolSpecification</li>
+ * <li>wbc1objflowSpecification</li>
+ * <li>wbc1ctrlflowSpecification</li>
+ * <li>wbc1controlSpecification</li>
+ * <li>wbc1objectSpecification</li>
  * <li>mifsdecisionSpecification</li>
  * <li>mlpapinSpecification</li>
  * <li>waldanodeSpecification</li>
@@ -66,8 +70,10 @@ public final class Patterns extends BaseGeneratedPatternGroup {
   private static Patterns INSTANCE;
   
   private Patterns() {
-    querySpecifications.add(McaobjflowSpecification.instance());
-    querySpecifications.add(McacontrolSpecification.instance());
+    querySpecifications.add(Wbc1objflowSpecification.instance());
+    querySpecifications.add(Wbc1ctrlflowSpecification.instance());
+    querySpecifications.add(Wbc1controlSpecification.instance());
+    querySpecifications.add(Wbc1objectSpecification.instance());
     querySpecifications.add(MifsdecisionSpecification.instance());
     querySpecifications.add(MlpapinSpecification.instance());
     querySpecifications.add(WaldanodeSpecification.instance());
@@ -82,20 +88,36 @@ public final class Patterns extends BaseGeneratedPatternGroup {
     querySpecifications.add(WsutpinSpecification.instance());
   }
   
-  public McaobjflowSpecification getMcaobjflowSpecification() {
-    return McaobjflowSpecification.instance();
+  public Wbc1objflowSpecification getWbc1objflowSpecification() {
+    return Wbc1objflowSpecification.instance();
   }
   
-  public McaobjflowSpecification.Matcher getMcaobjflowSpecification(final ViatraQueryEngine engine) {
-    return McaobjflowSpecification.Matcher.on(engine);
+  public Wbc1objflowSpecification.Matcher getWbc1objflowSpecification(final ViatraQueryEngine engine) {
+    return Wbc1objflowSpecification.Matcher.on(engine);
   }
   
-  public McacontrolSpecification getMcacontrolSpecification() {
-    return McacontrolSpecification.instance();
+  public Wbc1ctrlflowSpecification getWbc1ctrlflowSpecification() {
+    return Wbc1ctrlflowSpecification.instance();
   }
   
-  public McacontrolSpecification.Matcher getMcacontrolSpecification(final ViatraQueryEngine engine) {
-    return McacontrolSpecification.Matcher.on(engine);
+  public Wbc1ctrlflowSpecification.Matcher getWbc1ctrlflowSpecification(final ViatraQueryEngine engine) {
+    return Wbc1ctrlflowSpecification.Matcher.on(engine);
+  }
+  
+  public Wbc1controlSpecification getWbc1controlSpecification() {
+    return Wbc1controlSpecification.instance();
+  }
+  
+  public Wbc1controlSpecification.Matcher getWbc1controlSpecification(final ViatraQueryEngine engine) {
+    return Wbc1controlSpecification.Matcher.on(engine);
+  }
+  
+  public Wbc1objectSpecification getWbc1objectSpecification() {
+    return Wbc1objectSpecification.instance();
+  }
+  
+  public Wbc1objectSpecification.Matcher getWbc1objectSpecification(final ViatraQueryEngine engine) {
+    return Wbc1objectSpecification.Matcher.on(engine);
   }
   
   public MifsdecisionSpecification getMifsdecisionSpecification() {

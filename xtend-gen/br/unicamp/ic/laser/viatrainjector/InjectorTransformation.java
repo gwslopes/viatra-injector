@@ -1,7 +1,5 @@
 package br.unicamp.ic.laser.viatrainjector;
 
-import br.unicamp.ic.laser.viatrainjector.McacontrolSpecification;
-import br.unicamp.ic.laser.viatrainjector.McaobjflowSpecification;
 import br.unicamp.ic.laser.viatrainjector.MfcnodeSpecification;
 import br.unicamp.ic.laser.viatrainjector.MifsdecisionSpecification;
 import br.unicamp.ic.laser.viatrainjector.MlpaforkSpecification;
@@ -10,6 +8,10 @@ import br.unicamp.ic.laser.viatrainjector.MvivSpecification;
 import br.unicamp.ic.laser.viatrainjector.MvivobjectSpecification;
 import br.unicamp.ic.laser.viatrainjector.Patterns;
 import br.unicamp.ic.laser.viatrainjector.WaldanodeSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1controlSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1ctrlflowSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1objectSpecification;
+import br.unicamp.ic.laser.viatrainjector.Wbc1objflowSpecification;
 import br.unicamp.ic.laser.viatrainjector.WsutnodeSpecification;
 import br.unicamp.ic.laser.viatrainjector.WsutpinSpecification;
 import br.unicamp.ic.laser.viatrainjector.WvavcguardSpecification;
@@ -26,6 +28,7 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.ControlFlow;
+import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
@@ -46,6 +49,7 @@ import org.eclipse.viatra.transformation.runtime.emf.modelmanipulation.SimpleMod
 import org.eclipse.viatra.transformation.runtime.emf.rules.batch.BatchTransformationRuleFactory;
 import org.eclipse.viatra.transformation.runtime.emf.transformation.batch.BatchTransformation;
 import org.eclipse.viatra.transformation.runtime.emf.transformation.batch.BatchTransformationStatements;
+import org.eclipse.xtext.xbase.lib.CollectionExtensions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -101,9 +105,9 @@ public class InjectorTransformation {
    * Nada impede você criar mais métodos com diferentes transformações,
    * adicionar parâmetros ou chamar otras classes
    */
-  public void mcaobjflowExecution() {
-    final Collection<McaobjflowSpecification.Match> matched = this.engine.<McaobjflowSpecification.Matcher>getMatcher(this.faultSpecifications.getMcaobjflowSpecification()).getAllMatches();
-    for (final McaobjflowSpecification.Match el : matched) {
+  public void wbc1objflowExecution() {
+    final Collection<Wbc1objflowSpecification.Match> matched = this.engine.<Wbc1objflowSpecification.Matcher>getMatcher(this.faultSpecifications.getWbc1objflowSpecification()).getAllMatches();
+    for (final Wbc1objflowSpecification.Match el : matched) {
       {
         String text = el.getC().getBody();
         System.out.println(el.getC().getBody());
@@ -113,38 +117,102 @@ public class InjectorTransformation {
         comment.getAnnotatedElements().addAll(el.getC().getAnnotatedElements());
         comment.getAnnotatedElements().remove(el.getObjflow());
         comment.getAnnotatedElements().remove(el.getAct());
+        EcoreUtil.delete(el.getObjflow());
         final String target = this.getTarget(text);
         final String source = this.getSource(text);
-        System.out.println(source);
-        final Function1<ActivityNode, Boolean> _function = (ActivityNode it) -> {
-          return Boolean.valueOf(it.getName().equals(source));
-        };
-        System.out.println(IterableExtensions.<ActivityNode>findFirst(el.getAct().getOwnedNodes(), _function));
-        EcoreUtil.delete(el.getObjflow());
-        final ControlFlow ctrlFlow = this.umlFactory.createControlFlow();
-        ctrlFlow.setName("Injected-control-flow");
-        ctrlFlow.setGuard(el.getObjflow().getGuard());
-        ctrlFlow.setWeight(el.getObjflow().getWeight());
-        ctrlFlow.setSource(el.getObjflow().getSource());
-        ctrlFlow.setTarget(el.getObjflow().getTarget());
-        el.getAct().getEdges().add(ctrlFlow);
+        if ((source == null)) {
+          final ControlFlow ctrlFlow = this.umlFactory.createControlFlow();
+          ctrlFlow.setName("Injected-control-flow");
+          ctrlFlow.setGuard(el.getObjflow().getGuard());
+          ctrlFlow.setWeight(el.getObjflow().getWeight());
+          ctrlFlow.setSource(el.getObjflow().getSource());
+          ctrlFlow.setTarget(el.getObjflow().getTarget());
+          el.getAct().getEdges().add(ctrlFlow);
+        } else {
+          final ControlFlow ctrlFlow_1 = this.umlFactory.createControlFlow();
+          ctrlFlow_1.setName("Injected-control-flow");
+          ctrlFlow_1.setGuard(el.getObjflow().getGuard());
+          ctrlFlow_1.setWeight(el.getObjflow().getWeight());
+          final Function1<ActivityNode, Boolean> _function = (ActivityNode it) -> {
+            return Boolean.valueOf(it.getName().equals(source));
+          };
+          ctrlFlow_1.setSource(IterableExtensions.<ActivityNode>findFirst(el.getAct().getOwnedNodes(), _function));
+          final Function1<ActivityNode, Boolean> _function_1 = (ActivityNode it) -> {
+            return Boolean.valueOf(it.getName().equals(target));
+          };
+          ctrlFlow_1.setTarget(IterableExtensions.<ActivityNode>findFirst(el.getAct().getOwnedNodes(), _function_1));
+        }
       }
     }
   }
   
-  public void mcacontrolExecution() {
-    final Collection<McacontrolSpecification.Match> matched = this.engine.<McacontrolSpecification.Matcher>getMatcher(this.faultSpecifications.getMcacontrolSpecification()).getAllMatches();
-    for (final McacontrolSpecification.Match el : matched) {
+  public void wbc1ctrlflowExecution() {
+    final Collection<Wbc1ctrlflowSpecification.Match> matched = this.engine.<Wbc1ctrlflowSpecification.Matcher>getMatcher(this.faultSpecifications.getWbc1ctrlflowSpecification()).getAllMatches();
+    for (final Wbc1ctrlflowSpecification.Match el : matched) {
+      {
+        String text = el.getC().getBody();
+        System.out.println(el.getC().getBody());
+        Comment _c = el.getC();
+        _c.setBody("INJECTED!");
+        final Comment comment = this.umlFactory.createComment();
+        comment.getAnnotatedElements().addAll(el.getC().getAnnotatedElements());
+        comment.getAnnotatedElements().remove(el.getCtrlflow());
+        comment.getAnnotatedElements().remove(el.getAct());
+        final String target = this.getTarget(text);
+        final String source = this.getSource(text);
+        EcoreUtil.delete(el.getCtrlflow());
+        if ((source == null)) {
+          final ObjectFlow objFlow = this.umlFactory.createObjectFlow();
+          objFlow.setName("Injected-control-flow");
+          objFlow.setGuard(el.getCtrlflow().getGuard());
+          objFlow.setWeight(el.getCtrlflow().getWeight());
+          objFlow.setSource(el.getCtrlflow().getSource());
+          objFlow.setTarget(el.getCtrlflow().getTarget());
+          el.getAct().getEdges().add(objFlow);
+        } else {
+          final ObjectFlow objFlow_1 = this.umlFactory.createObjectFlow();
+          objFlow_1.setName("Injected-control-flow");
+          objFlow_1.setGuard(el.getCtrlflow().getGuard());
+          objFlow_1.setWeight(el.getCtrlflow().getWeight());
+          objFlow_1.setSource(el.getCtrlflow().getSource());
+          objFlow_1.setTarget(el.getCtrlflow().getTarget());
+          el.getAct().getEdges().add(objFlow_1);
+        }
+      }
+    }
+  }
+  
+  public void wbc1controlExecution() {
+    final Collection<Wbc1controlSpecification.Match> matched = this.engine.<Wbc1controlSpecification.Matcher>getMatcher(this.faultSpecifications.getWbc1controlSpecification()).getAllMatches();
+    for (final Wbc1controlSpecification.Match el : matched) {
       {
         Comment _c = el.getC();
         _c.setBody("INJECTED!");
         final ControlFlow ctrlFlow = this.umlFactory.createControlFlow();
-        ctrlFlow.setName("NewControlFlow");
+        ctrlFlow.setName("ControlFlowInject");
         ctrlFlow.setSource(el.getCtrflow().getTarget());
         ctrlFlow.setTarget(el.getCtrflow().getSource());
         ctrlFlow.setGuard(el.getCtrflow().getGuard());
         ctrlFlow.setWeight(el.getCtrflow().getWeight());
         EcoreUtil.delete(el.getCtrflow());
+        el.getAct().getEdges().add(ctrlFlow);
+      }
+    }
+  }
+  
+  public void wbc1ObjectExecution() {
+    final Collection<Wbc1objectSpecification.Match> matched = this.engine.<Wbc1objectSpecification.Matcher>getMatcher(this.faultSpecifications.getWbc1objectSpecification()).getAllMatches();
+    for (final Wbc1objectSpecification.Match el : matched) {
+      {
+        Comment _c = el.getC();
+        _c.setBody("INJECTED!");
+        final ControlFlow ctrlFlow = this.umlFactory.createControlFlow();
+        ctrlFlow.setName("ObjectFlowInject");
+        ctrlFlow.setSource(el.getObjflow().getTarget());
+        ctrlFlow.setTarget(el.getObjflow().getSource());
+        ctrlFlow.setGuard(el.getObjflow().getGuard());
+        ctrlFlow.setWeight(el.getObjflow().getWeight());
+        EcoreUtil.delete(el.getObjflow());
         el.getAct().getEdges().add(ctrlFlow);
       }
     }
@@ -156,6 +224,8 @@ public class InjectorTransformation {
       {
         Comment _c = el.getC();
         _c.setBody("INJECTED!");
+        final DecisionNode decision = this.umlFactory.createDecisionNode();
+        decision.getOutgoings().addAll(el.getObjdecision().getOutgoings());
         final Function1<ActivityEdge, Boolean> _function = (ActivityEdge it) -> {
           return Boolean.valueOf(true);
         };
@@ -164,6 +234,14 @@ public class InjectorTransformation {
           return Boolean.valueOf(true);
         };
         _findFirst.setTarget(IterableExtensions.<ActivityEdge>findLast(el.getObjdecision().getOutgoings(), _function_1).getTarget());
+        final Function1<ActivityEdge, Boolean> _function_2 = (ActivityEdge it) -> {
+          return Boolean.valueOf(true);
+        };
+        ActivityEdge _findLast = IterableExtensions.<ActivityEdge>findLast(el.getObjdecision().getOutgoings(), _function_2);
+        final Function1<ActivityEdge, Boolean> _function_3 = (ActivityEdge it) -> {
+          return Boolean.valueOf(true);
+        };
+        _findLast.setTarget(IterableExtensions.<ActivityEdge>findFirst(decision.getOutgoings(), _function_3).getTarget());
       }
     }
   }
@@ -220,12 +298,23 @@ public class InjectorTransformation {
       {
         Comment _c = el.getC();
         _c.setBody("INJECTED!");
+        String text = el.getC().getBody();
+        final String target = this.getTarget(text);
+        final String source = this.getSource(text);
         final CallBehaviorAction behavior = this.umlFactory.createCallBehaviorAction();
-        behavior.setName("NewBehavior");
+        behavior.setName("InjectBehavior");
         behavior.setActivity(el.getAnode().getActivity());
-        behavior.getOwnedElements().addAll(el.getAnode().getOwnedElements());
-        EcoreUtil.delete(el.getAnode());
-        el.getAct().getOwnedNodes().add(behavior);
+        System.out.println(el.getAnode().getInputs());
+        behavior.getInputs().addAll(el.getAnode().getInputs());
+        CollectionExtensions.<InputPin>removeAll(el.getAnode().getInputs());
+        final Function1<InputPin, Boolean> _function = (InputPin it) -> {
+          return Boolean.valueOf(true);
+        };
+        el.getAnode().getInputs().add(IterableExtensions.<InputPin>findLast(behavior.getInputs(), _function));
+        final Function1<InputPin, Boolean> _function_1 = (InputPin it) -> {
+          return Boolean.valueOf(true);
+        };
+        el.getAnode().getInputs().add(IterableExtensions.<InputPin>findFirst(behavior.getInputs(), _function_1));
       }
     }
   }
@@ -437,7 +526,7 @@ public class InjectorTransformation {
   }
   
   public void executeall(final InjectorTransformation transformation) {
-    transformation.mcaobjflowExecution();
+    transformation.waldanodeExecution();
   }
   
   private String getSource(final String text) {

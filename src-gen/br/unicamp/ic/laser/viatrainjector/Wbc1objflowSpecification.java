@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Comment;
-import org.eclipse.uml2.uml.ControlFlow;
+import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.viatra.query.runtime.api.IPatternMatch;
 import org.eclipse.viatra.query.runtime.api.IQuerySpecification;
 import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine;
@@ -52,17 +52,27 @@ import org.eclipse.viatra.query.runtime.util.ViatraQueryLoggingUtil;
  * 
  * <p>Original source:
  *         <code><pre>
- *         //Control Flow and MCA - Execução mcacontrolExecution
- *         pattern mcacontrolSpecification(act : Activity, c : Comment, ctrflow : ControlFlow, str : java String)
- *         {
- *         	
- *             Comment.annotatedElement(c,ctrflow);
- *             Comment.body(c,str);
- *         	Activity.edge(act,ctrflow);
- *             check (
- *             	str.startsWith("InjectFault into control flow") && str.indexOf("MCA") {@literal >} 0  
- *             );
+ *         // We are searching for an Activity, a Comment, and ObjectFlow, and a specific String...
  *         
+ *         //Objet Flow and WBC1 - Execução mcaobjflowExecution
+ *         pattern wbc1objflowSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
+ *         {
+ *         	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass
+ *         	// Visualize it as "c --[annotatedElement]--{@literal >} objflow"
+ *             Comment.annotatedElement(c,objflow);
+ *         
+ *           	// The Comment and the String must be connected by the property "body" of Comment metaclass
+ *         	// "c --[body]--{@literal >} str"
+ *             Comment.body(c,str);
+ *             
+ *           	// The Activity and the ObjectFlow must be connected by the property "edge" of Activity metaclass
+ *         	// "act --[edge]--{@literal >} objflow"  
+ *         	Activity.edge(act,objflow);
+ *         
+ *         	// Additional constraints are that...
+ *             check (
+ *             	str.startsWith("InjectFault into object flow") && str.indexOf("WBC1") {@literal >} 0  
+ *             );
  *         }
  * </pre></code>
  * 
@@ -71,9 +81,9 @@ import org.eclipse.viatra.query.runtime.util.ViatraQueryLoggingUtil;
  * 
  */
 @SuppressWarnings("all")
-public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecification<McacontrolSpecification.Matcher> {
+public final class Wbc1objflowSpecification extends BaseGeneratedEMFQuerySpecification<Wbc1objflowSpecification.Matcher> {
   /**
-   * Pattern-specific match representation of the br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification pattern,
+   * Pattern-specific match representation of the br.unicamp.ic.laser.viatrainjector.wbc1objflowSpecification pattern,
    * to be used in conjunction with {@link Matcher}.
    * 
    * <p>Class fields correspond to parameters of the pattern. Fields with value null are considered unassigned.
@@ -89,16 +99,16 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     
     private Comment fC;
     
-    private ControlFlow fCtrflow;
+    private ObjectFlow fObjflow;
     
     private String fStr;
     
-    private static List<String> parameterNames = makeImmutableList("act", "c", "ctrflow", "str");
+    private static List<String> parameterNames = makeImmutableList("act", "c", "objflow", "str");
     
-    private Match(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
+    private Match(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
       this.fAct = pAct;
       this.fC = pC;
-      this.fCtrflow = pCtrflow;
+      this.fObjflow = pObjflow;
       this.fStr = pStr;
     }
     
@@ -107,7 +117,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       switch(parameterName) {
           case "act": return this.fAct;
           case "c": return this.fC;
-          case "ctrflow": return this.fCtrflow;
+          case "objflow": return this.fObjflow;
           case "str": return this.fStr;
           default: return null;
       }
@@ -118,7 +128,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       switch(index) {
           case 0: return this.fAct;
           case 1: return this.fC;
-          case 2: return this.fCtrflow;
+          case 2: return this.fObjflow;
           case 3: return this.fStr;
           default: return null;
       }
@@ -132,8 +142,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       return this.fC;
     }
     
-    public ControlFlow getCtrflow() {
-      return this.fCtrflow;
+    public ObjectFlow getObjflow() {
+      return this.fObjflow;
     }
     
     public String getStr() {
@@ -151,8 +161,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
           this.fC = (Comment) newValue;
           return true;
       }
-      if ("ctrflow".equals(parameterName) ) {
-          this.fCtrflow = (ControlFlow) newValue;
+      if ("objflow".equals(parameterName) ) {
+          this.fObjflow = (ObjectFlow) newValue;
           return true;
       }
       if ("str".equals(parameterName) ) {
@@ -172,9 +182,9 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       this.fC = pC;
     }
     
-    public void setCtrflow(final ControlFlow pCtrflow) {
+    public void setObjflow(final ObjectFlow pObjflow) {
       if (!isMutable()) throw new java.lang.UnsupportedOperationException();
-      this.fCtrflow = pCtrflow;
+      this.fObjflow = pObjflow;
     }
     
     public void setStr(final String pStr) {
@@ -184,22 +194,22 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     
     @Override
     public String patternName() {
-      return "br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification";
+      return "br.unicamp.ic.laser.viatrainjector.wbc1objflowSpecification";
     }
     
     @Override
     public List<String> parameterNames() {
-      return McacontrolSpecification.Match.parameterNames;
+      return Wbc1objflowSpecification.Match.parameterNames;
     }
     
     @Override
     public Object[] toArray() {
-      return new Object[]{fAct, fC, fCtrflow, fStr};
+      return new Object[]{fAct, fC, fObjflow, fStr};
     }
     
     @Override
-    public McacontrolSpecification.Match toImmutable() {
-      return isMutable() ? newMatch(fAct, fC, fCtrflow, fStr) : this;
+    public Wbc1objflowSpecification.Match toImmutable() {
+      return isMutable() ? newMatch(fAct, fC, fObjflow, fStr) : this;
     }
     
     @Override
@@ -207,14 +217,14 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       StringBuilder result = new StringBuilder();
       result.append("\"act\"=" + prettyPrintValue(fAct) + ", ");
       result.append("\"c\"=" + prettyPrintValue(fC) + ", ");
-      result.append("\"ctrflow\"=" + prettyPrintValue(fCtrflow) + ", ");
+      result.append("\"objflow\"=" + prettyPrintValue(fObjflow) + ", ");
       result.append("\"str\"=" + prettyPrintValue(fStr));
       return result.toString();
     }
     
     @Override
     public int hashCode() {
-      return Objects.hash(fAct, fC, fCtrflow, fStr);
+      return Objects.hash(fAct, fC, fObjflow, fStr);
     }
     
     @Override
@@ -224,9 +234,9 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       if (obj == null) {
           return false;
       }
-      if ((obj instanceof McacontrolSpecification.Match)) {
-          McacontrolSpecification.Match other = (McacontrolSpecification.Match) obj;
-          return Objects.equals(fAct, other.fAct) && Objects.equals(fC, other.fC) && Objects.equals(fCtrflow, other.fCtrflow) && Objects.equals(fStr, other.fStr);
+      if ((obj instanceof Wbc1objflowSpecification.Match)) {
+          Wbc1objflowSpecification.Match other = (Wbc1objflowSpecification.Match) obj;
+          return Objects.equals(fAct, other.fAct) && Objects.equals(fC, other.fC) && Objects.equals(fObjflow, other.fObjflow) && Objects.equals(fStr, other.fStr);
       } else {
           // this should be infrequent
           if (!(obj instanceof IPatternMatch)) {
@@ -238,8 +248,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     }
     
     @Override
-    public McacontrolSpecification specification() {
-      return McacontrolSpecification.instance();
+    public Wbc1objflowSpecification specification() {
+      return Wbc1objflowSpecification.instance();
     }
     
     /**
@@ -249,7 +259,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the empty match.
      * 
      */
-    public static McacontrolSpecification.Match newEmptyMatch() {
+    public static Wbc1objflowSpecification.Match newEmptyMatch() {
       return new Mutable(null, null, null, null);
     }
     
@@ -259,13 +269,13 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * 
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return the new, mutable (partial) match object.
      * 
      */
-    public static McacontrolSpecification.Match newMutableMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return new Mutable(pAct, pC, pCtrflow, pStr);
+    public static Wbc1objflowSpecification.Match newMutableMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return new Mutable(pAct, pC, pObjflow, pStr);
     }
     
     /**
@@ -274,18 +284,18 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return the (partial) match object.
      * 
      */
-    public static McacontrolSpecification.Match newMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return new Immutable(pAct, pC, pCtrflow, pStr);
+    public static Wbc1objflowSpecification.Match newMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return new Immutable(pAct, pC, pObjflow, pStr);
     }
     
-    private static final class Mutable extends McacontrolSpecification.Match {
-      Mutable(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-        super(pAct, pC, pCtrflow, pStr);
+    private static final class Mutable extends Wbc1objflowSpecification.Match {
+      Mutable(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+        super(pAct, pC, pObjflow, pStr);
       }
       
       @Override
@@ -294,9 +304,9 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
       }
     }
     
-    private static final class Immutable extends McacontrolSpecification.Match {
-      Immutable(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-        super(pAct, pC, pCtrflow, pStr);
+    private static final class Immutable extends Wbc1objflowSpecification.Match {
+      Immutable(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+        super(pAct, pC, pObjflow, pStr);
       }
       
       @Override
@@ -307,7 +317,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
   }
   
   /**
-   * Generated pattern matcher API of the br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification pattern,
+   * Generated pattern matcher API of the br.unicamp.ic.laser.viatrainjector.wbc1objflowSpecification pattern,
    * providing pattern-specific query methods.
    * 
    * <p>Use the pattern matcher on a given model via {@link #on(ViatraQueryEngine)},
@@ -317,25 +327,35 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
    * 
    * <p>Original source:
    * <code><pre>
-   * //Control Flow and MCA - Execução mcacontrolExecution
-   * pattern mcacontrolSpecification(act : Activity, c : Comment, ctrflow : ControlFlow, str : java String)
-   * {
-   * 	
-   *     Comment.annotatedElement(c,ctrflow);
-   *     Comment.body(c,str);
-   * 	Activity.edge(act,ctrflow);
-   *     check (
-   *     	str.startsWith("InjectFault into control flow") && str.indexOf("MCA") {@literal >} 0  
-   *     );
+   * // We are searching for an Activity, a Comment, and ObjectFlow, and a specific String...
    * 
+   * //Objet Flow and WBC1 - Execução mcaobjflowExecution
+   * pattern wbc1objflowSpecification(act : Activity, c : Comment, objflow : ObjectFlow, str : java String)
+   * {
+   * 	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass
+   * 	// Visualize it as "c --[annotatedElement]--{@literal >} objflow"
+   *     Comment.annotatedElement(c,objflow);
+   * 
+   *   	// The Comment and the String must be connected by the property "body" of Comment metaclass
+   * 	// "c --[body]--{@literal >} str"
+   *     Comment.body(c,str);
+   *     
+   *   	// The Activity and the ObjectFlow must be connected by the property "edge" of Activity metaclass
+   * 	// "act --[edge]--{@literal >} objflow"  
+   * 	Activity.edge(act,objflow);
+   * 
+   * 	// Additional constraints are that...
+   *     check (
+   *     	str.startsWith("InjectFault into object flow") && str.indexOf("WBC1") {@literal >} 0  
+   *     );
    * }
    * </pre></code>
    * 
    * @see Match
-   * @see McacontrolSpecification
+   * @see Wbc1objflowSpecification
    * 
    */
-  public static class Matcher extends BaseMatcher<McacontrolSpecification.Match> {
+  public static class Matcher extends BaseMatcher<Wbc1objflowSpecification.Match> {
     /**
      * Initializes the pattern matcher within an existing VIATRA Query engine.
      * If the pattern matcher is already constructed in the engine, only a light-weight reference is returned.
@@ -344,7 +364,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @throws ViatraQueryRuntimeException if an error occurs during pattern matcher creation
      * 
      */
-    public static McacontrolSpecification.Matcher on(final ViatraQueryEngine engine) {
+    public static Wbc1objflowSpecification.Matcher on(final ViatraQueryEngine engine) {
       // check if matcher already exists
       Matcher matcher = engine.getExistingMatcher(querySpecification());
       if (matcher == null) {
@@ -359,7 +379,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @noreference This method is for internal matcher initialization by the framework, do not call it manually.
      * 
      */
-    public static McacontrolSpecification.Matcher create() {
+    public static Wbc1objflowSpecification.Matcher create() {
       return new Matcher();
     }
     
@@ -367,11 +387,11 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     
     private static final int POSITION_C = 1;
     
-    private static final int POSITION_CTRFLOW = 2;
+    private static final int POSITION_OBJFLOW = 2;
     
     private static final int POSITION_STR = 3;
     
-    private static final Logger LOGGER = ViatraQueryLoggingUtil.getLogger(McacontrolSpecification.Matcher.class);
+    private static final Logger LOGGER = ViatraQueryLoggingUtil.getLogger(Wbc1objflowSpecification.Matcher.class);
     
     /**
      * Initializes the pattern matcher within an existing VIATRA Query engine.
@@ -389,13 +409,13 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * Returns the set of all matches of the pattern that conform to the given fixed values of some parameters.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return matches represented as a Match object.
      * 
      */
-    public Collection<McacontrolSpecification.Match> getAllMatches(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllMatches(new Object[]{pAct, pC, pCtrflow, pStr}).collect(Collectors.toSet());
+    public Collection<Wbc1objflowSpecification.Match> getAllMatches(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllMatches(new Object[]{pAct, pC, pObjflow, pStr}).collect(Collectors.toSet());
     }
     
     /**
@@ -406,13 +426,13 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * In such cases, either rely on {@link #getAllMatches()} or collect the results of the stream in end-user code.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return a stream of matches represented as a Match object.
      * 
      */
-    public Stream<McacontrolSpecification.Match> streamAllMatches(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllMatches(new Object[]{pAct, pC, pCtrflow, pStr});
+    public Stream<Wbc1objflowSpecification.Match> streamAllMatches(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllMatches(new Object[]{pAct, pC, pObjflow, pStr});
     }
     
     /**
@@ -420,13 +440,13 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * Neither determinism nor randomness of selection is guaranteed.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return a match represented as a Match object, or null if no match is found.
      * 
      */
-    public Optional<McacontrolSpecification.Match> getOneArbitraryMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawGetOneArbitraryMatch(new Object[]{pAct, pC, pCtrflow, pStr});
+    public Optional<Wbc1objflowSpecification.Match> getOneArbitraryMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawGetOneArbitraryMatch(new Object[]{pAct, pC, pObjflow, pStr});
     }
     
     /**
@@ -434,26 +454,26 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * under any possible substitution of the unspecified parameters (if any).
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return true if the input is a valid (partial) match of the pattern.
      * 
      */
-    public boolean hasMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawHasMatch(new Object[]{pAct, pC, pCtrflow, pStr});
+    public boolean hasMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawHasMatch(new Object[]{pAct, pC, pObjflow, pStr});
     }
     
     /**
      * Returns the number of all matches of the pattern that conform to the given fixed values of some parameters.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return the number of pattern matches found.
      * 
      */
-    public int countMatches(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawCountMatches(new Object[]{pAct, pC, pCtrflow, pStr});
+    public int countMatches(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawCountMatches(new Object[]{pAct, pC, pObjflow, pStr});
     }
     
     /**
@@ -461,14 +481,14 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * Neither determinism nor randomness of selection is guaranteed.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @param processor the action that will process the selected match.
      * @return true if the pattern has at least one match with the given parameter values, false if the processor was not invoked
      * 
      */
-    public boolean forOneArbitraryMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr, final Consumer<? super McacontrolSpecification.Match> processor) {
-      return rawForOneArbitraryMatch(new Object[]{pAct, pC, pCtrflow, pStr}, processor);
+    public boolean forOneArbitraryMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr, final Consumer<? super Wbc1objflowSpecification.Match> processor) {
+      return rawForOneArbitraryMatch(new Object[]{pAct, pC, pObjflow, pStr}, processor);
     }
     
     /**
@@ -477,13 +497,13 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
      * @param pAct the fixed value of pattern parameter act, or null if not bound.
      * @param pC the fixed value of pattern parameter c, or null if not bound.
-     * @param pCtrflow the fixed value of pattern parameter ctrflow, or null if not bound.
+     * @param pObjflow the fixed value of pattern parameter objflow, or null if not bound.
      * @param pStr the fixed value of pattern parameter str, or null if not bound.
      * @return the (partial) match object.
      * 
      */
-    public McacontrolSpecification.Match newMatch(final Activity pAct, final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return McacontrolSpecification.Match.newMatch(pAct, pC, pCtrflow, pStr);
+    public Wbc1objflowSpecification.Match newMatch(final Activity pAct, final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return Wbc1objflowSpecification.Match.newMatch(pAct, pC, pObjflow, pStr);
     }
     
     /**
@@ -523,7 +543,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<Activity> streamAllValuesOfact(final McacontrolSpecification.Match partialMatch) {
+    public Stream<Activity> streamAllValuesOfact(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfact(partialMatch.toArray());
     }
     
@@ -537,8 +557,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<Activity> streamAllValuesOfact(final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllValuesOfact(new Object[]{null, pC, pCtrflow, pStr});
+    public Stream<Activity> streamAllValuesOfact(final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllValuesOfact(new Object[]{null, pC, pObjflow, pStr});
     }
     
     /**
@@ -546,7 +566,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<Activity> getAllValuesOfact(final McacontrolSpecification.Match partialMatch) {
+    public Set<Activity> getAllValuesOfact(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfact(partialMatch.toArray()).collect(Collectors.toSet());
     }
     
@@ -555,8 +575,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<Activity> getAllValuesOfact(final Comment pC, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllValuesOfact(new Object[]{null, pC, pCtrflow, pStr}).collect(Collectors.toSet());
+    public Set<Activity> getAllValuesOfact(final Comment pC, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllValuesOfact(new Object[]{null, pC, pObjflow, pStr}).collect(Collectors.toSet());
     }
     
     /**
@@ -596,7 +616,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<Comment> streamAllValuesOfc(final McacontrolSpecification.Match partialMatch) {
+    public Stream<Comment> streamAllValuesOfc(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfc(partialMatch.toArray());
     }
     
@@ -610,8 +630,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<Comment> streamAllValuesOfc(final Activity pAct, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllValuesOfc(new Object[]{pAct, null, pCtrflow, pStr});
+    public Stream<Comment> streamAllValuesOfc(final Activity pAct, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllValuesOfc(new Object[]{pAct, null, pObjflow, pStr});
     }
     
     /**
@@ -619,7 +639,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<Comment> getAllValuesOfc(final McacontrolSpecification.Match partialMatch) {
+    public Set<Comment> getAllValuesOfc(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfc(partialMatch.toArray()).collect(Collectors.toSet());
     }
     
@@ -628,39 +648,39 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<Comment> getAllValuesOfc(final Activity pAct, final ControlFlow pCtrflow, final String pStr) {
-      return rawStreamAllValuesOfc(new Object[]{pAct, null, pCtrflow, pStr}).collect(Collectors.toSet());
+    public Set<Comment> getAllValuesOfc(final Activity pAct, final ObjectFlow pObjflow, final String pStr) {
+      return rawStreamAllValuesOfc(new Object[]{pAct, null, pObjflow, pStr}).collect(Collectors.toSet());
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    protected Stream<ControlFlow> rawStreamAllValuesOfctrflow(final Object[] parameters) {
-      return rawStreamAllValues(POSITION_CTRFLOW, parameters).map(ControlFlow.class::cast);
+    protected Stream<ObjectFlow> rawStreamAllValuesOfobjflow(final Object[] parameters) {
+      return rawStreamAllValues(POSITION_OBJFLOW, parameters).map(ObjectFlow.class::cast);
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<ControlFlow> getAllValuesOfctrflow() {
-      return rawStreamAllValuesOfctrflow(emptyArray()).collect(Collectors.toSet());
+    public Set<ObjectFlow> getAllValuesOfobjflow() {
+      return rawStreamAllValuesOfobjflow(emptyArray()).collect(Collectors.toSet());
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Stream<ControlFlow> streamAllValuesOfctrflow() {
-      return rawStreamAllValuesOfctrflow(emptyArray());
+    public Stream<ObjectFlow> streamAllValuesOfobjflow() {
+      return rawStreamAllValuesOfobjflow(emptyArray());
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * </p>
      * <strong>NOTE</strong>: It is important not to modify the source model while the stream is being processed.
      * If the match set of the pattern changes during processing, the contents of the stream is <strong>undefined</strong>.
@@ -669,12 +689,12 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<ControlFlow> streamAllValuesOfctrflow(final McacontrolSpecification.Match partialMatch) {
-      return rawStreamAllValuesOfctrflow(partialMatch.toArray());
+    public Stream<ObjectFlow> streamAllValuesOfobjflow(final Wbc1objflowSpecification.Match partialMatch) {
+      return rawStreamAllValuesOfobjflow(partialMatch.toArray());
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * </p>
      * <strong>NOTE</strong>: It is important not to modify the source model while the stream is being processed.
      * If the match set of the pattern changes during processing, the contents of the stream is <strong>undefined</strong>.
@@ -683,26 +703,26 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<ControlFlow> streamAllValuesOfctrflow(final Activity pAct, final Comment pC, final String pStr) {
-      return rawStreamAllValuesOfctrflow(new Object[]{pAct, pC, null, pStr});
+    public Stream<ObjectFlow> streamAllValuesOfobjflow(final Activity pAct, final Comment pC, final String pStr) {
+      return rawStreamAllValuesOfobjflow(new Object[]{pAct, pC, null, pStr});
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<ControlFlow> getAllValuesOfctrflow(final McacontrolSpecification.Match partialMatch) {
-      return rawStreamAllValuesOfctrflow(partialMatch.toArray()).collect(Collectors.toSet());
+    public Set<ObjectFlow> getAllValuesOfobjflow(final Wbc1objflowSpecification.Match partialMatch) {
+      return rawStreamAllValuesOfobjflow(partialMatch.toArray()).collect(Collectors.toSet());
     }
     
     /**
-     * Retrieve the set of values that occur in matches for ctrflow.
+     * Retrieve the set of values that occur in matches for objflow.
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<ControlFlow> getAllValuesOfctrflow(final Activity pAct, final Comment pC, final String pStr) {
-      return rawStreamAllValuesOfctrflow(new Object[]{pAct, pC, null, pStr}).collect(Collectors.toSet());
+    public Set<ObjectFlow> getAllValuesOfobjflow(final Activity pAct, final Comment pC, final String pStr) {
+      return rawStreamAllValuesOfobjflow(new Object[]{pAct, pC, null, pStr}).collect(Collectors.toSet());
     }
     
     /**
@@ -742,7 +762,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<String> streamAllValuesOfstr(final McacontrolSpecification.Match partialMatch) {
+    public Stream<String> streamAllValuesOfstr(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfstr(partialMatch.toArray());
     }
     
@@ -756,8 +776,8 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Stream of all values or empty set if there are no matches
      * 
      */
-    public Stream<String> streamAllValuesOfstr(final Activity pAct, final Comment pC, final ControlFlow pCtrflow) {
-      return rawStreamAllValuesOfstr(new Object[]{pAct, pC, pCtrflow, null});
+    public Stream<String> streamAllValuesOfstr(final Activity pAct, final Comment pC, final ObjectFlow pObjflow) {
+      return rawStreamAllValuesOfstr(new Object[]{pAct, pC, pObjflow, null});
     }
     
     /**
@@ -765,7 +785,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<String> getAllValuesOfstr(final McacontrolSpecification.Match partialMatch) {
+    public Set<String> getAllValuesOfstr(final Wbc1objflowSpecification.Match partialMatch) {
       return rawStreamAllValuesOfstr(partialMatch.toArray()).collect(Collectors.toSet());
     }
     
@@ -774,14 +794,14 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @return the Set of all values or empty set if there are no matches
      * 
      */
-    public Set<String> getAllValuesOfstr(final Activity pAct, final Comment pC, final ControlFlow pCtrflow) {
-      return rawStreamAllValuesOfstr(new Object[]{pAct, pC, pCtrflow, null}).collect(Collectors.toSet());
+    public Set<String> getAllValuesOfstr(final Activity pAct, final Comment pC, final ObjectFlow pObjflow) {
+      return rawStreamAllValuesOfstr(new Object[]{pAct, pC, pObjflow, null}).collect(Collectors.toSet());
     }
     
     @Override
-    protected McacontrolSpecification.Match tupleToMatch(final Tuple t) {
+    protected Wbc1objflowSpecification.Match tupleToMatch(final Tuple t) {
       try {
-          return McacontrolSpecification.Match.newMatch((Activity) t.get(POSITION_ACT), (Comment) t.get(POSITION_C), (ControlFlow) t.get(POSITION_CTRFLOW), (String) t.get(POSITION_STR));
+          return Wbc1objflowSpecification.Match.newMatch((Activity) t.get(POSITION_ACT), (Comment) t.get(POSITION_C), (ObjectFlow) t.get(POSITION_OBJFLOW), (String) t.get(POSITION_STR));
       } catch(ClassCastException e) {
           LOGGER.error("Element(s) in tuple not properly typed!",e);
           return null;
@@ -789,9 +809,9 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     }
     
     @Override
-    protected McacontrolSpecification.Match arrayToMatch(final Object[] match) {
+    protected Wbc1objflowSpecification.Match arrayToMatch(final Object[] match) {
       try {
-          return McacontrolSpecification.Match.newMatch((Activity) match[POSITION_ACT], (Comment) match[POSITION_C], (ControlFlow) match[POSITION_CTRFLOW], (String) match[POSITION_STR]);
+          return Wbc1objflowSpecification.Match.newMatch((Activity) match[POSITION_ACT], (Comment) match[POSITION_C], (ObjectFlow) match[POSITION_OBJFLOW], (String) match[POSITION_STR]);
       } catch(ClassCastException e) {
           LOGGER.error("Element(s) in array not properly typed!",e);
           return null;
@@ -799,9 +819,9 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     }
     
     @Override
-    protected McacontrolSpecification.Match arrayToMatchMutable(final Object[] match) {
+    protected Wbc1objflowSpecification.Match arrayToMatchMutable(final Object[] match) {
       try {
-          return McacontrolSpecification.Match.newMutableMatch((Activity) match[POSITION_ACT], (Comment) match[POSITION_C], (ControlFlow) match[POSITION_CTRFLOW], (String) match[POSITION_STR]);
+          return Wbc1objflowSpecification.Match.newMutableMatch((Activity) match[POSITION_ACT], (Comment) match[POSITION_C], (ObjectFlow) match[POSITION_OBJFLOW], (String) match[POSITION_STR]);
       } catch(ClassCastException e) {
           LOGGER.error("Element(s) in array not properly typed!",e);
           return null;
@@ -813,12 +833,12 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
      * @throws ViatraQueryRuntimeException if the pattern definition could not be loaded
      * 
      */
-    public static IQuerySpecification<McacontrolSpecification.Matcher> querySpecification() {
-      return McacontrolSpecification.instance();
+    public static IQuerySpecification<Wbc1objflowSpecification.Matcher> querySpecification() {
+      return Wbc1objflowSpecification.instance();
     }
   }
   
-  private McacontrolSpecification() {
+  private Wbc1objflowSpecification() {
     super(GeneratedPQuery.INSTANCE);
   }
   
@@ -827,7 +847,7 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
    * @throws ViatraQueryRuntimeException if the pattern definition could not be loaded
    * 
    */
-  public static McacontrolSpecification instance() {
+  public static Wbc1objflowSpecification instance() {
     try{
         return LazyHolder.INSTANCE;
     } catch (ExceptionInInitializerError err) {
@@ -836,35 +856,35 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
   }
   
   @Override
-  protected McacontrolSpecification.Matcher instantiate(final ViatraQueryEngine engine) {
-    return McacontrolSpecification.Matcher.on(engine);
+  protected Wbc1objflowSpecification.Matcher instantiate(final ViatraQueryEngine engine) {
+    return Wbc1objflowSpecification.Matcher.on(engine);
   }
   
   @Override
-  public McacontrolSpecification.Matcher instantiate() {
-    return McacontrolSpecification.Matcher.create();
+  public Wbc1objflowSpecification.Matcher instantiate() {
+    return Wbc1objflowSpecification.Matcher.create();
   }
   
   @Override
-  public McacontrolSpecification.Match newEmptyMatch() {
-    return McacontrolSpecification.Match.newEmptyMatch();
+  public Wbc1objflowSpecification.Match newEmptyMatch() {
+    return Wbc1objflowSpecification.Match.newEmptyMatch();
   }
   
   @Override
-  public McacontrolSpecification.Match newMatch(final Object... parameters) {
-    return McacontrolSpecification.Match.newMatch((org.eclipse.uml2.uml.Activity) parameters[0], (org.eclipse.uml2.uml.Comment) parameters[1], (org.eclipse.uml2.uml.ControlFlow) parameters[2], (java.lang.String) parameters[3]);
+  public Wbc1objflowSpecification.Match newMatch(final Object... parameters) {
+    return Wbc1objflowSpecification.Match.newMatch((org.eclipse.uml2.uml.Activity) parameters[0], (org.eclipse.uml2.uml.Comment) parameters[1], (org.eclipse.uml2.uml.ObjectFlow) parameters[2], (java.lang.String) parameters[3]);
   }
   
   /**
-   * Inner class allowing the singleton instance of {@link McacontrolSpecification} to be created 
+   * Inner class allowing the singleton instance of {@link Wbc1objflowSpecification} to be created 
    *     <b>not</b> at the class load time of the outer class, 
-   *     but rather at the first call to {@link McacontrolSpecification#instance()}.
+   *     but rather at the first call to {@link Wbc1objflowSpecification#instance()}.
    * 
    * <p> This workaround is required e.g. to support recursion.
    * 
    */
   private static class LazyHolder {
-    private static final McacontrolSpecification INSTANCE = new McacontrolSpecification();
+    private static final Wbc1objflowSpecification INSTANCE = new Wbc1objflowSpecification();
     
     /**
      * Statically initializes the query specification <b>after</b> the field {@link #INSTANCE} is assigned.
@@ -882,17 +902,17 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
   }
   
   private static class GeneratedPQuery extends BaseGeneratedEMFPQuery {
-    private static final McacontrolSpecification.GeneratedPQuery INSTANCE = new GeneratedPQuery();
+    private static final Wbc1objflowSpecification.GeneratedPQuery INSTANCE = new GeneratedPQuery();
     
     private final PParameter parameter_act = new PParameter("act", "org.eclipse.uml2.uml.Activity", new EClassTransitiveInstancesKey((EClass)getClassifierLiteralSafe("http://www.eclipse.org/uml2/5.0.0/UML", "Activity")), PParameterDirection.INOUT);
     
     private final PParameter parameter_c = new PParameter("c", "org.eclipse.uml2.uml.Comment", new EClassTransitiveInstancesKey((EClass)getClassifierLiteralSafe("http://www.eclipse.org/uml2/5.0.0/UML", "Comment")), PParameterDirection.INOUT);
     
-    private final PParameter parameter_ctrflow = new PParameter("ctrflow", "org.eclipse.uml2.uml.ControlFlow", new EClassTransitiveInstancesKey((EClass)getClassifierLiteralSafe("http://www.eclipse.org/uml2/5.0.0/UML", "ControlFlow")), PParameterDirection.INOUT);
+    private final PParameter parameter_objflow = new PParameter("objflow", "org.eclipse.uml2.uml.ObjectFlow", new EClassTransitiveInstancesKey((EClass)getClassifierLiteralSafe("http://www.eclipse.org/uml2/5.0.0/UML", "ObjectFlow")), PParameterDirection.INOUT);
     
     private final PParameter parameter_str = new PParameter("str", "java.lang.String", new JavaTransitiveInstancesKey(java.lang.String.class), PParameterDirection.INOUT);
     
-    private final List<PParameter> parameters = Arrays.asList(parameter_act, parameter_c, parameter_ctrflow, parameter_str);
+    private final List<PParameter> parameters = Arrays.asList(parameter_act, parameter_c, parameter_objflow, parameter_str);
     
     private GeneratedPQuery() {
       super(PVisibility.PUBLIC);
@@ -900,12 +920,12 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
     
     @Override
     public String getFullyQualifiedName() {
-      return "br.unicamp.ic.laser.viatrainjector.mcacontrolSpecification";
+      return "br.unicamp.ic.laser.viatrainjector.wbc1objflowSpecification";
     }
     
     @Override
     public List<String> getParameterNames() {
-      return Arrays.asList("act","c","ctrflow","str");
+      return Arrays.asList("act","c","objflow","str");
     }
     
     @Override
@@ -921,42 +941,42 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
           PBody body = new PBody(this);
           PVariable var_act = body.getOrCreateVariableByName("act");
           PVariable var_c = body.getOrCreateVariableByName("c");
-          PVariable var_ctrflow = body.getOrCreateVariableByName("ctrflow");
+          PVariable var_objflow = body.getOrCreateVariableByName("objflow");
           PVariable var_str = body.getOrCreateVariableByName("str");
           new TypeConstraint(body, Tuples.flatTupleOf(var_act), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Activity")));
           new TypeConstraint(body, Tuples.flatTupleOf(var_c), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Comment")));
-          new TypeConstraint(body, Tuples.flatTupleOf(var_ctrflow), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "ControlFlow")));
+          new TypeConstraint(body, Tuples.flatTupleOf(var_objflow), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "ObjectFlow")));
           new TypeFilterConstraint(body, Tuples.flatTupleOf(var_str), new JavaTransitiveInstancesKey(java.lang.String.class));
           body.setSymbolicParameters(Arrays.<ExportedParameter>asList(
              new ExportedParameter(body, var_act, parameter_act),
              new ExportedParameter(body, var_c, parameter_c),
-             new ExportedParameter(body, var_ctrflow, parameter_ctrflow),
+             new ExportedParameter(body, var_objflow, parameter_objflow),
              new ExportedParameter(body, var_str, parameter_str)
           ));
-          // 	    Comment.annotatedElement(c,ctrflow)
+          // 	// The Comment and the ObjectFlow must be connected by the property "annotatedElement" of Comment metaclass	// Visualize it as "c --[annotatedElement]--> objflow"    Comment.annotatedElement(c,objflow)
           new TypeConstraint(body, Tuples.flatTupleOf(var_c), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Comment")));
           PVariable var__virtual_0_ = body.getOrCreateVariableByName(".virtual{0}");
           new TypeConstraint(body, Tuples.flatTupleOf(var_c, var__virtual_0_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Comment", "annotatedElement")));
           new TypeConstraint(body, Tuples.flatTupleOf(var__virtual_0_), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Element")));
-          new Equality(body, var__virtual_0_, var_ctrflow);
-          //     Comment.body(c,str)
+          new Equality(body, var__virtual_0_, var_objflow);
+          //   	// The Comment and the String must be connected by the property "body" of Comment metaclass	// "c --[body]--> str"    Comment.body(c,str)
           new TypeConstraint(body, Tuples.flatTupleOf(var_c), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Comment")));
           PVariable var__virtual_1_ = body.getOrCreateVariableByName(".virtual{1}");
           new TypeConstraint(body, Tuples.flatTupleOf(var_c, var__virtual_1_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Comment", "body")));
           new TypeConstraint(body, Tuples.flatTupleOf(var__virtual_1_), new EDataTypeInSlotsKey((EDataType)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/Types", "String")));
           new Equality(body, var__virtual_1_, var_str);
-          // 	Activity.edge(act,ctrflow)
+          //       	// The Activity and the ObjectFlow must be connected by the property "edge" of Activity metaclass	// "act --[edge]--> objflow"  	Activity.edge(act,objflow)
           new TypeConstraint(body, Tuples.flatTupleOf(var_act), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Activity")));
           PVariable var__virtual_2_ = body.getOrCreateVariableByName(".virtual{2}");
           new TypeConstraint(body, Tuples.flatTupleOf(var_act, var__virtual_2_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "Activity", "edge")));
           new TypeConstraint(body, Tuples.flatTupleOf(var__virtual_2_), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.eclipse.org/uml2/5.0.0/UML", "ActivityEdge")));
-          new Equality(body, var__virtual_2_, var_ctrflow);
-          //     check (    	str.startsWith("InjectFault into control flow") && str.indexOf("MCA") > 0      )
+          new Equality(body, var__virtual_2_, var_objflow);
+          // 	// Additional constraints are that...    check (    	str.startsWith("InjectFault into object flow") && str.indexOf("WBC1") > 0      )
           new ExpressionEvaluation(body, new IExpressionEvaluator() {
           
               @Override
               public String getShortDescription() {
-                  return "Expression evaluation from pattern mcacontrolSpecification";
+                  return "Expression evaluation from pattern wbc1objflowSpecification";
               }
               
               @Override
@@ -976,6 +996,6 @@ public final class McacontrolSpecification extends BaseGeneratedEMFQuerySpecific
   }
   
   private static boolean evaluateExpression_1_1(final String str) {
-    return (str.startsWith("InjectFault into control flow") && (str.indexOf("MCA") > 0));
+    return (str.startsWith("InjectFault into object flow") && (str.indexOf("WBC1") > 0));
   }
 }
